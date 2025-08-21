@@ -7,10 +7,16 @@ url2 = 'https://raw.githubusercontent.com/sushantag9/Supermarket-Sales-Data-Anal
 df2 = pd.read_csv(url2)
 
 #kita akan menampilkan jumlah penjualan per produk
+# Menyiapkan data agregat
 sales_per_product = df2.groupby('Product line')['Total'].sum().reset_index()
 
+# Membuat list warna: hijau untuk tertinggi, biru untuk lainnya
+colors = ['blue'] * len(sales_per_product)
+max_idx = sales_per_product['Total'].idxmax()
+colors[max_idx] = 'green'
+
 plt.figure(figsize=(10, 6))
-ax = sns.barplot(x='Product line', y='Total', data=sales_per_product, ci=None)
+ax = sns.barplot(x='Product line', y='Total', data=sales_per_product, ci=None, palette=colors)
 
 plt.title('Total Sales by Product Line')
 plt.xlabel('Product Line')
